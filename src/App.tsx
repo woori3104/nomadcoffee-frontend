@@ -1,8 +1,9 @@
 import { ThemeProvider } from "styled-components";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import Login from "./screen/Login";
-import Home from "./screen/Home";
-import NotFound from "./screen/NotFound";
+import Login from "./screens/Login";
+import Home from "./screens/Home";
+import NotFound from "./screens/NotFound";
+import SignUp from "./screens/SignUp";
 import { useReactiveVar } from "@apollo/client";
 import { isLoggedInVar, darkModeVar } from "./apollo";
 import { darkTheme, GlobalStyles, lightTheme } from "./styles";
@@ -18,6 +19,11 @@ const App = () => {
           <Route path="/" exact>
             {isLoggedIn ? <Home /> : <Login />}
           </Route>
+          {!isLoggedIn ? (
+            <Route path="/sign-up">
+              <SignUp />
+            </Route>):null}
+          
           <Route>
             <NotFound />
           </Route>
