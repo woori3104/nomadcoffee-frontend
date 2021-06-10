@@ -1,4 +1,4 @@
-import { faInstagram } from "@fortawesome/free-brands-svg-icons";
+import { faDev } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import AuthLayout from "../components/auth/AuthLayout";
@@ -23,20 +23,20 @@ const Subtitle = styled(FatLink)`
   text-align: center;
   margin-top: 10px;
 `;
-const CREATE_ACCOUNT_MUTATION  = gql`
+const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccount (
-    $firstName: String!
-    $lastName: String
     $userName: String!
     $email:    String!
     $password:String!
+    $name:String!
+    $location:String!
   ) {
     createAccount (
-      firstName : $firstName
-      lastName : $lastName
       userName : $userName
       email : $email
       password : $password
+      name : $name
+      location : $location      
     ) {
       ok
       error
@@ -46,19 +46,29 @@ const CREATE_ACCOUNT_MUTATION  = gql`
 
 const SignUp = () => {
   const history = useHistory();
-  const onCompleted = (data:any) => {
+  const onCompleted = (data: any) => {
+    const { userName, password } = getValues();
     const {
       createAccount: { ok, error },
     } = data;
     if (!ok) {
-      return;
+      return setError("result", {
+        message: error,
+      });
     }
-    history.push(routes.home);
+     history.push(routes.home, {
+      message: "Account created. Please log in.",
+      userName,
+      password,
+    });
+  };
+  const clearLoginError = () => {
+    clearErrors("result");
   };
   const [createAccount, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {
     onCompleted,
   });
-  const { register, handleSubmit, errors, formState } = useForm({
+  const { register, handleSubmit, setError, clearErrors, errors, formState, getValues  } = useForm({
     mode: "onChange",
   });
   const onSubmitValid = (data: any) => {
@@ -75,41 +85,38 @@ const SignUp = () => {
     <AuthLayout>
       <FormBox>
         <HeaderContainer>
-          <FontAwesomeIcon icon={faInstagram} size="3x" />
+          <FontAwesomeIcon icon={faDev} size="3x" />
           <Subtitle>
             Sign up to see photos and videos from your friends.
           </Subtitle>
         </HeaderContainer>
         <form onSubmit={handleSubmit(onSubmitValid)}>
-          <Input
-            ref={register({
-              required: "First Name is required.",
-            })}
-            name="firstName"
+          <Input ref={register({ required: "UserName is required", minLength: {
+              value: 5,
+              message: "Username should be longer than 5 chars.",
+            },})}
+            name="userName"
             type="text"
-            placeholder="First Name"
+            onChange={clearLoginError}
+            hasError={Boolean(errors?.userName?.message)}
+            placeholder="userName"
           />
-          <Input
-            ref={register}
-            type="text"
-            placeholder="Last Name"
-            name="lastName"
-          />
-          <Input
-            ref={register({
-              required: "Email is required.",
-            })}
+          <Input ref={register({ required: "Email is required.",})}
             name="email"
-            type="text"
+            type="email"
+            onChange={clearLoginError}
+            hasError={Boolean(errors?.email?.message)}
             placeholder="Email"
           />
           <Input
             ref={register({
-              required: "UserName is required.",
+              required: "name is required.",
             })}
-            name="UserName"
+            name="name"
             type="text"
-            placeholder="UserName"
+            onChange={clearLoginError}
+            hasError={Boolean(errors?.name?.message)}
+            placeholder="Name"
           />
           <Input
             ref={register({
@@ -117,7 +124,19 @@ const SignUp = () => {
             })}
             name="password"
             type="password"
+            onChange={clearLoginError}
+            hasError={Boolean(errors?.password?.message)}
             placeholder="Password"
+          />
+          <Input
+            ref={register({
+              required: "location is required.",
+            })}
+            name="location"
+            type="test"
+            onChange={clearLoginError}
+            hasError={Boolean(errors?.location?.message)}
+            placeholder="location"
           />
           <Button
             type="submit"

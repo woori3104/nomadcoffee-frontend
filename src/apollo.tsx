@@ -1,4 +1,10 @@
-import { ApolloClient, InMemoryCache, makeVar } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  makeVar,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { createUploadLink } from "apollo-upload-client";
 
 const TOKEN = "token";
 
@@ -11,12 +17,23 @@ export const logUserIn = (token:string) => {
 
 export const logUserOut = () => {
   localStorage.removeItem(TOKEN);
-  isLoggedInVar(false);
+  window.location.reload();
 };
 
-
 export const darkModeVar = makeVar(false);
-export const client = new ApolloClient({
+const uploadHttpLink = createUploadLink({
   uri: "http://localhost:4000/graphql",
+});
+const authLink = setContext((_, { headers }) => {
+  return {
+    headers: {
+      ...headers,
+      token: localStorage.getItem(TOKEN),
+    },
+  };
+});
+
+export const client = new ApolloClient({
+  link: authLink.concat(uploadHttpLink),
   cache: new InMemoryCache(),
 });

@@ -84,42 +84,42 @@ const Login = () => {
         <form onSubmit={ handleSubmit(onSubmitValid)}>
 
           <Input ref={register({ required: "UserName is required", minLength: {
-                value: 5,
-                message: "Username should be longer than 5 chars.",
-              },})}
-            name="userName"
-            type="text"
-            placeholder="UserName"
-            onChange={clearLoginError}
-            hasError={Boolean(errors?.userName?.message)}
-            required
-          />
-          <Input ref={register({ required : "password is required",})}
-            name="password"
-            type="password"
-            placeholder="Password"
-            hasError={Boolean(errors?.password?.message)}
-            onChange={clearLoginError}
-            required/>
-          <FormError message={errors?.password?.message} />
-          <Button
-            type="submit"
-            value={loading ? "Loading..." : "Log in"}
-            disabled={!formState.isValid || loading}
-          />
-          <FormError message={errors?.result?.message} />
-        </form>
-        <Separator />
-        <FacebookLogin>
-          <FontAwesomeIcon icon={faFacebookSquare} />
-          <span>Log in with Facebook</span>
-        </FacebookLogin>
-      </FormBox>
-      <BottomBox
-        cta="Don't have an account?"
-        linkText="Sign up"
-        link={routes.signUp}
-      />
+              value: 5,
+              message: "Username should be longer than 5 chars.",
+            },})}
+          name="userName"
+          type="text"
+          placeholder="UserName"
+          onChange={clearLoginError}
+          hasError={Boolean(errors?.userName?.message)}
+          required
+        />
+        <Input ref={register({ required : "password is required",})}
+          name="password"
+          type="password"
+          placeholder="Password"
+          hasError={Boolean(errors?.password?.message)}
+          onChange={clearLoginError}
+          required/>
+        <FormError message={errors?.password?.message} />
+        <Button
+          type="submit"
+          value={loading ? "Loading..." : "Log in"}
+          disabled={!formState.isValid || loading}
+        />
+        <FormError message={errors?.result?.message} />
+      </form>
+      <Separator />
+      <FacebookLogin>
+        <FontAwesomeIcon icon={faFacebookSquare} />
+        <span>Log in with Facebook</span>
+      </FacebookLogin>
+    </FormBox>
+    <BottomBox
+      cta="Don't have an account?"
+      linkText="Sign up"
+      link={routes.signUp}
+    />
     </AuthLayout>
   );
 }

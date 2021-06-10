@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { logUserOut } from "../apollo";
 import { FatText } from "../components/shared";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SEECOFFEESHOP_QUERY = gql`
   query seeCoffeeShops($page:Int) {
@@ -23,8 +23,6 @@ const SEECOFFEESHOP_QUERY = gql`
   }
 `;
 
-const SLink = styled(Link)``;
-
 const PhotoContainer = styled.div`
   background-color: white;
   border: 1px solid ${(props) => props.theme.borderColor};
@@ -42,12 +40,11 @@ const Name = styled(FatText)`
 
 const Home = () => {
   const { data } = useQuery(SEECOFFEESHOP_QUERY, { variables: {page:1}});
+  console.log(data);
   let items = data?.seeCoffeeShops.map((item:any) => (
     <PhotoContainer key={item.id}>
       <PhotoHeader>
-        <SLink to={`/shop/:${item.id}`}>
-          <Name>{item.name}</Name>
-        </SLink>
+        <Link to={item.id}><Name>{item.name}</Name></Link>
       </PhotoHeader>
     </PhotoContainer>
 ));
