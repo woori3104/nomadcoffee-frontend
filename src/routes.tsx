@@ -2,6 +2,7 @@ const routes = {
   home: "/",
   signUp: "/sign-up",
   createShop: "/add",
-  edit: '/shop/:id',
+  shop: '/shop/:id',
+  edit: '/shop/:id/edit',
 };
 export default routes;

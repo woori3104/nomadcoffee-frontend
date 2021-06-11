@@ -53,12 +53,12 @@ const Add = () => {
   });
   const onCompleted = (data:any) => {
     const { ok, error } = data;
-    history.push(routes.home);
     if (!ok) {
       return setError("result", {
         message: error,
       });
     }
+    history.push(routes.home);
   };
   const [createCoffeeshop, { loading }] = useMutation(CREATE_CAFE_MUTATION, {
     onCompleted,
@@ -73,10 +73,6 @@ const Add = () => {
       return;
     }
     const { name, latitude, longitude, categories, photos } = data;
-    console.log("onSubmitValid");
-    console.log(data);
-    console.log(categories);
-    console.log(photos);
     createCoffeeshop({
       variables: {
         name,

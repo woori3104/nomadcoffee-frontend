@@ -12,7 +12,7 @@ const SButton = styled.input`
   width: 100%;
 `;
 //
-const Button: React.FC<{ type: string; value: string; disabled:boolean}> = props => {
+const Button: React.FC<{ type: string; value: string; disabled: boolean; }> = props => {
    return <SButton {...props} />;
 };
 export default Button;

@@ -8,10 +8,11 @@ import FormBox from "../components/auth/FormBox";
 import Input from "../components/auth/Input";
 import { FatLink } from "../components/shared";
 import routes from "../routes";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
+
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ const Subtitle = styled(FatLink)`
   margin-top: 10px;
 `;
 const UPDATE_CAFE_MUTATION = gql`
-  mutation editCoffeeShop (
+  mutation editCoffeeShop  (
     $id:Int!
     $name: String
     $latitude: String
@@ -48,10 +49,8 @@ const UPDATE_CAFE_MUTATION = gql`
 const Edit = () => {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
-  id.replace(":", "");
-  console.log(id);
-  const shop_id =Number(id);
-  console.log(shop_id);
+  const shop_id=Number(id.replace(":", ""));
+
   const {
     register, handleSubmit, setError, clearErrors, errors, formState
   } = useForm({
@@ -64,7 +63,7 @@ const Edit = () => {
         message: error,
       });
     }
-    history.push(routes.home);
+    history.push(routes.shop);
   };
   const [editCoffeeShop, { loading }] = useMutation(UPDATE_CAFE_MUTATION, {
     onCompleted,
@@ -74,7 +73,7 @@ const Edit = () => {
     clearErrors("result");
   };
   
-  const onSubmitValid = (data:any) => {
+  const onSubmitValid = (data: any) => {
     if (loading) {
       return;
     }
@@ -82,11 +81,13 @@ const Edit = () => {
     console.log(data);
     editCoffeeShop({
       variables: {
-        id:shop_id,
-        ...data,
+        id: shop_id,
+        name: data?.name,
+        latitude: data?.latitude,
+        longitude: data?.longitude,
       },
     });
-  };
+  }
 
   return (
     <AuthLayout>
@@ -98,7 +99,7 @@ const Edit = () => {
           </Subtitle>
         </HeaderContainer>
         <form onSubmit={handleSubmit(onSubmitValid)}>
-          <Input ref={register({ })}
+          <Input ref={register({})}
             name="name"
             type="text"
             onChange={clearCreateError}
