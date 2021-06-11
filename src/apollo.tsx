@@ -22,7 +22,7 @@ export const logUserOut = () => {
 
 export const darkModeVar = makeVar(false);
 const uploadHttpLink = createUploadLink({
-  uri: "http://localhost:4000/graphql",
+  uri: "https://woori-nomadcoffe-backend.herokuapp.com/graphql",
 });
 const authLink = setContext((_, { headers }) => {
   return {
