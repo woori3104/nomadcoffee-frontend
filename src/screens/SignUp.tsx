@@ -30,13 +30,17 @@ const CREATE_ACCOUNT_MUTATION = gql`
     $password:String!
     $name:String!
     $location:String!
+    $avatarURL:Upload,
+    $githubUsername:String
   ) {
     createAccount (
       userName : $userName
       email : $email
       password : $password
       name : $name
-      location : $location      
+      location : $location
+      avatarURL :  $avatarURL
+      githubUsername : githubUsername
     ) {
       ok
       error
@@ -135,6 +139,17 @@ const SignUp = () => {
             name="location"
             type="test"
             onChange={clearLoginError}
+            hasError={Boolean(errors?.location?.message)}
+            placeholder="location"
+          />
+          <Input
+            ref={register({
+              required: "avatar is required.",
+            })}
+            name="avatar"
+            type="file"
+            onChange={clearLoginError}
+            accept="image/jpeg, image/jpg"
             hasError={Boolean(errors?.location?.message)}
             placeholder="location"
           />
