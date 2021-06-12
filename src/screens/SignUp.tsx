@@ -91,7 +91,7 @@ const SignUp = () => {
         <HeaderContainer>
           <FontAwesomeIcon icon={faDev} size="3x" />
           <Subtitle>
-            Sign up to see photos and videos from your friends.
+            Sign up to see cafe from your friends.
           </Subtitle>
         </HeaderContainer>
         <form onSubmit={handleSubmit(onSubmitValid)}>
