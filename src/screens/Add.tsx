@@ -60,7 +60,7 @@ const Add = () => {
     }
     history.push(routes.home);
   };
-  const [createCoffeeshop, { loading }] = useMutation(CREATE_CAFE_MUTATION, {
+  const [createCoffeeShop, { loading }] = useMutation(CREATE_CAFE_MUTATION, {
     onCompleted,
   });
 
@@ -73,7 +73,7 @@ const Add = () => {
       return;
     }
     const { name, latitude, longitude, categories, photos } = data;
-    createCoffeeshop({
+    createCoffeeShop({
       variables: {
         name,
         latitude,

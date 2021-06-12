@@ -83,19 +83,19 @@ const Shop = () => {
     return (
     <AuthLayout>
         <PhotoContainer key={Shopid}>
-                <PhotoHeader>
-                    <ProfileHeader>
-                        <Avatar url={item?.user?.avatarURL} />
-                        <Name>{item?.user?.name}</Name>
-                    </ProfileHeader>
-                <div>
-                    <Name>
-                        lat {item?.latitude}, long {item?.longitude}
-                    </Name>
-                    <div>
-                        <Name> cafeName : {item?.name}</Name>
-                    </div>
-                 </div>
+          <PhotoHeader>
+              <ProfileHeader>
+                  <Avatar url={item?.user?.avatarURL} />
+                  <Name>{item?.user?.name}</Name>
+              </ProfileHeader>
+          <div>
+              <Name>
+                  lat {item?.latitude}, long {item?.longitude}
+              </Name>
+              <div>
+                  <Name> cafeName : {item?.name}</Name>
+              </div>
+            </div>
             <div>
             {item?.photos[0]?.url ? (
                 <PhotoFile src={item.photos[0].url} />
