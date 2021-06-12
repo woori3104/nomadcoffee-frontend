@@ -1,14 +1,12 @@
 import { gql, useQuery } from "@apollo/client";
 import styled from "styled-components";
-import { logUserOut } from "../apollo";
-import { FatText } from "../components/shared";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
-import { useForm } from "react-hook-form";
-import React from "react";
 import Avatar from "../components/Avatar";
 import AuthLayout from "../components/auth/AuthLayout";
+import Button from "../components/auth/Button";
+import routes from "../routes";
 
 const SEECOFFEESHOP_QUERY = gql`
   query seeCoffeeShop($id:Int!) {
@@ -63,6 +61,16 @@ const ProfileHeader = styled.div`
   flex-direction: column;
 `;
 
+const SBottomBox = styled.div`
+  padding: 35px 40px 25px 40px;
+  text-align: center;
+  a {
+    font-weight: 600;
+    margin-left: 5px;
+    color: ${(props) => props.theme.accent};
+  }
+`;
+
 const Shop = () => {
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
@@ -95,11 +103,22 @@ const Shop = () => {
                 <PhotoFile src={`https://via.placeholder.com/${50}x${40}?text=${item?.name}`}/>
             )}
             </div>
-            <SLink to={`/shop/:${Shopid}/edit`}>
-                <button>Edif Cafe</button>
-            </SLink>
-        </PhotoHeader>
+            {item?.isMine ? (
+              <SLink to={`/shop/:${Shopid}/edit`}>
+              <Button
+                  type="submit"
+                  value={"Edit Cafe"}
+                  disabled={item?.isMine}
+                />
+              </SLink>
+            ) : null}
+            <SBottomBox>
+              <Link to={routes.home}>{"Home"}</Link>
+            </SBottomBox>
+          </PhotoHeader>
+          
         </PhotoContainer>
+       
     </AuthLayout>
     );
    

@@ -8,7 +8,7 @@ import FormBox from "../components/auth/FormBox";
 import Input from "../components/auth/Input";
 import { FatLink } from "../components/shared";
 import routes from "../routes";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
@@ -133,6 +133,11 @@ const Edit = () => {
           <Button
             type="submit"
             value={loading ? "Loading..." : "Update"}
+            disabled={!formState.isValid || loading}
+          />
+          <Button
+            type="submit"
+            value={loading ? "Loading..." : "Delete"}
             disabled={!formState.isValid || loading}
           />
         </form>

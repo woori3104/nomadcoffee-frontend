@@ -11,7 +11,6 @@ import routes from "../routes";
 import { gql, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,8 +29,6 @@ const CREATE_ACCOUNT_MUTATION = gql`
     $password:String!
     $name:String!
     $location:String!
-    $avatarURL:Upload,
-    $githubUsername:String
   ) {
     createAccount (
       userName : $userName
@@ -39,8 +36,6 @@ const CREATE_ACCOUNT_MUTATION = gql`
       password : $password
       name : $name
       location : $location
-      avatarURL :  $avatarURL
-      githubUsername : githubUsername
     ) {
       ok
       error
@@ -55,6 +50,8 @@ const SignUp = () => {
     const {
       createAccount: { ok, error },
     } = data;
+    console.log(data);
+    
     if (!ok) {
       return setError("result", {
         message: error,
@@ -76,9 +73,6 @@ const SignUp = () => {
     mode: "onChange",
   });
   const onSubmitValid = (data: any) => {
-    if (loading) {
-      return;
-    }
     createAccount({
       variables: {
         ...data,
@@ -137,19 +131,8 @@ const SignUp = () => {
               required: "location is required.",
             })}
             name="location"
-            type="test"
+            type="text"
             onChange={clearLoginError}
-            hasError={Boolean(errors?.location?.message)}
-            placeholder="location"
-          />
-          <Input
-            ref={register({
-              required: "avatar is required.",
-            })}
-            name="avatar"
-            type="file"
-            onChange={clearLoginError}
-            accept="image/jpeg, image/jpg"
             hasError={Boolean(errors?.location?.message)}
             placeholder="location"
           />

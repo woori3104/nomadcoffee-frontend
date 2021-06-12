@@ -1,13 +1,14 @@
 import {
   ApolloClient,
+  from,
   InMemoryCache,
   makeVar,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
+import { onError } from "@apollo/client/link/error";
 
 const TOKEN = "token";
-
 export const isLoggedInVar = makeVar(Boolean(localStorage.getItem(TOKEN)));
 
 export const logUserIn = (token:string) => {
@@ -23,8 +24,19 @@ export const logUserOut = () => {
 export const darkModeVar = makeVar(false);
 const httpLinkOptions = {
   fetch,
-    uri: "https://woori-nomadcoffe-backend.herokuapp.com/graphql",
+    uri: "http://localhost:4000/graphql",
 }
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+    );
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
+
+
 const uploadHttpLink = createUploadLink(httpLinkOptions);
 const authLink = setContext((_, { headers }) => {
   return {
@@ -36,6 +48,6 @@ const authLink = setContext((_, { headers }) => {
 });
 
 export const client = new ApolloClient({
-  link: authLink.concat(uploadHttpLink),
+  link: from([errorLink, authLink.concat(uploadHttpLink)]),
   cache: new InMemoryCache(),
 });

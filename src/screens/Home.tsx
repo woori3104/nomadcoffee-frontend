@@ -2,7 +2,6 @@ import { gql, useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { logUserOut } from "../apollo";
 import {Link} from "react-router-dom";
-import Masonry from "@mtsmfm/react-masonry";
 
 const SEECOFFEESHOPS_QUERY = gql`
   query seeCoffeeShops($page:Int) {
