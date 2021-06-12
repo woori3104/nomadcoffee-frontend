@@ -24,7 +24,7 @@ export const logUserOut = () => {
 export const darkModeVar = makeVar(false);
 const httpLinkOptions = {
   fetch,
-    uri: "http://localhost:4000/graphql",
+  uri: process.env.NODE_ENV === "production"? "https://woori-nomadcoffe-backend.herokuapp.com/graphql":"http://localhost:4000/graphql",
 }
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
