@@ -36,7 +36,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
-
 const uploadHttpLink = createUploadLink(httpLinkOptions);
 const authLink = setContext((_, { headers }) => {
   return {

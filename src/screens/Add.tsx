@@ -24,14 +24,14 @@ const Subtitle = styled(FatLink)`
   margin-top: 10px;
 `;
 const CREATE_CAFE_MUTATION = gql`
-  mutation createCoffeeshop (
+  mutation createCoffeeShop (
     $name: String!
     $latitude: String!
     $longitude: String!
     $photos: [Upload]
     $categories: [String]
   ) {
-    createCoffeeshop (
+    createCoffeeShop (
       name : $name
       latitude : $latitude
       longitude : $longitude
