@@ -4,8 +4,8 @@ import { logUserOut } from "../apollo";
 import {Link} from "react-router-dom";
 
 const SEECOFFEESHOPS_QUERY = gql`
-  query seeCoffeeShops($page:Int) {
-    seeCoffeeShops(page:$page) {
+  query seeCoffeeShops($offset:Int) {
+    seeCoffeeShops(offset:$offset) {
       id
       name
       latitude
@@ -17,6 +17,11 @@ const SEECOFFEESHOPS_QUERY = gql`
       categories {
         id
         name
+      }
+      user {
+        id
+        avatarURL
+        userName
       }
     }
   }
@@ -51,7 +56,7 @@ const PhotoHeader = styled.div`
 
 const Home = () => {
 
-  const { data } = useQuery(SEECOFFEESHOPS_QUERY, { variables: {page:1}});
+  const { data } = useQuery(SEECOFFEESHOPS_QUERY, { variables: {offset:0}});
   let items = data?.seeCoffeeShops.map((item:any) => (
     <PhotoContainer key={item.id}>
       <PhotoHeader>
